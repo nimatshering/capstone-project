@@ -1,3 +1,3 @@
-# Project Title
-## Subtitle or Section
-### Subsection
+# Capstone Project
+## Task Manager
+### User Manual
