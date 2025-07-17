@@ -11,7 +11,7 @@ import { SlashIcon } from "lucide-react";
 export default function UsersPage() {
   return (
     <div className="container mx-auto">
-      <div className="p-20 w-full">
+      <div className="px-20 w-full">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
