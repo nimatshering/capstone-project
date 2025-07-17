@@ -12,31 +12,47 @@ import {
 import { Menu, MoveRight, X } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 export const NavBar = () => {
+  const { user, refreshUser } = useUser();
+
   const navigationItems = [
     {
       title: "Home",
       href: "/",
       description: "",
     },
-    {
-      title: "Products",
-      description: "Our Products.",
-      items: [
-        {
-          title: "Task Manager",
-          href: "/projects",
-        },
-        {
-          title: "Users",
-          href: "/users",
-        },
-      ],
-    },
+    ...(user
+      ? [
+          {
+            title: "Products",
+            description: "Our Products.",
+            items: [
+              {
+                title: "Task Manager",
+                href: "/projects",
+              },
+              {
+                title: "Users",
+                href: "/users",
+              },
+            ],
+          },
+        ]
+      : []),
   ];
 
   const [isOpen, setOpen] = useState(false);
+  const router = useRouter();
+
+  async function handleLogout() {
+    await fetch("/api/logout", { method: "POST" });
+    await refreshUser(); // update context - user state to null
+    router.push("/login");
+  }
+
   return (
     <header className="w-full z-40 fixed top-0 left-0 bg-white border-b">
       <div className="container relative mx-auto min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-2 items-center">
@@ -46,13 +62,11 @@ export const NavBar = () => {
               {navigationItems.map((item) => (
                 <NavigationMenuItem key={item.title}>
                   {item.href ? (
-                    <>
-                      <Link href={item.href} passHref>
-                        <NavigationMenuLink asChild>
-                          <Button variant="ghost">{item.title}</Button>
-                        </NavigationMenuLink>
-                      </Link>
-                    </>
+                    <Link href={item.href}>
+                      <NavigationMenuLink asChild>
+                        <Button variant="ghost">{item.title}</Button>
+                      </NavigationMenuLink>
+                    </Link>
                   ) : (
                     <>
                       <NavigationMenuTrigger className="font-medium text-sm">
@@ -89,15 +103,23 @@ export const NavBar = () => {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        <div className="flex justify-end w-full gap-4">
+        <div className="flex justify-end w-full gap-4 items-center">
           <div className="border-r hidden md:inline"></div>
 
-          <Link href="/login">
-            <Button variant="outline">Sign in</Button>
-          </Link>
-          <Link href="/register">
-            <Button className="bg-gray-700">Register</Button>
-          </Link>
+          {!user ? (
+            <>
+              <Link href="/login">
+                <Button variant="outline">Sign in</Button>
+              </Link>
+              <Link href="/register">
+                <Button className="bg-gray-700">Register</Button>
+              </Link>
+            </>
+          ) : (
+            <Button variant="outline" onClick={handleLogout}>
+              Logout
+            </Button>
+          )}
         </div>
         <div className="flex w-12 shrink lg:hidden items-end justify-end">
           <Button variant="ghost" onClick={() => setOpen(!isOpen)}>

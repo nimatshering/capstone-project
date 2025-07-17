@@ -40,36 +40,34 @@ export const Footer = () => {
 
   return (
     <div className="w-full py-20 lg:py-40 text-gray-700 bg-stone-200">
-      <div className="container mx-auto">
-        <div className="grid lg:grid-cols-2 gap-10 items-center">
-          <div className="flex gap-8 flex-col items-start">
-            <div className="flex gap-2 flex-col">
-              <h2 className="text-3xl md:text-5xl tracking-tighter max-w-xl font-regular text-left">
-                Task Manager
-              </h2>
-              <p className="pl-2 text-lg max-w-lg leading-relaxed tracking-tight  text-left">
-                Simplify your business...
-              </p>
-            </div>
+      <div className="container mx-auto px-4">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          {/* Left Column: Title and Description */}
+          <div className="space-y-6">
+            <h2 className="text-3xl md:text-5xl font-normal tracking-tight leading-tight text-left max-w-xl">
+              Task Manager
+            </h2>
+            <p className="text-lg leading-relaxed text-left text-gray-600 max-w-lg">
+              Simplify your business...
+            </p>
           </div>
-          <div className="grid lg:grid-cols-3 gap-10 items-start">
+
+          {/* Right Column: Navigation Links */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
             {navigationItems.map((item) => (
               <div
                 key={item.title}
-                className="flex text-base gap-1 flex-col items-start"
+                className="space-y-2 text-base font-medium text-left"
               >
-                <div className="flex flex-col gap-2">
-                  {item.items &&
-                    item.items.map((subItem) => (
-                      <Link
-                        key={subItem.title}
-                        href={subItem.href}
-                        className="flex justify-between items-center"
-                      >
-                        <span className="">{subItem.title}</span>
-                      </Link>
-                    ))}
-                </div>
+                {item.items?.map((subItem) => (
+                  <Link
+                    key={subItem.title}
+                    href={subItem.href}
+                    className="block hover:underline hover:text-gray-900 transition"
+                  >
+                    {subItem.title}
+                  </Link>
+                ))}
               </div>
             ))}
           </div>
