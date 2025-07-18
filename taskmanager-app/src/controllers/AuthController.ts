@@ -4,7 +4,7 @@ import { createSession, deleteSession, getSession } from "@/lib/session";
 import { findUserByUsername } from "@/models/AuthModel";
 import bcrypt from "bcryptjs";
 
-// POST /api/login
+// POST - /api/login
 export async function login(req: NextRequest) {
   try {
     const { username, password } = await req.json();
@@ -43,14 +43,14 @@ export async function login(req: NextRequest) {
   }
 }
 
-// POST /api/logout
+// POST - /api/logout
 export async function logout(req: NextRequest) {
   const response = NextResponse.json({ success: true });
   deleteSession(req, response); // No need to await deleteSession
   return response;
 }
 
-// GET /api/session (or /api/me)
+// GET - /api/session
 export async function getCurrentUser(req: NextRequest) {
   const session = await getSession(req);
 

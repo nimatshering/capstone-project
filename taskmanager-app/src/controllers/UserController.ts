@@ -3,30 +3,30 @@ import { hash } from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import { getUsers, store, update, destroy } from "@/models/userModel";
 
-// Utility to extract Zod field errors
-function getZodFieldErrors(error: z.ZodError): Record<string, string> {
-  const fieldErrors: Record<string, string> = {};
-  error.issues.forEach((e) => {
-    if (e.path.length > 0) {
-      fieldErrors[e.path[0] as string] = e.message;
-    }
-  });
-  return fieldErrors;
-}
+/** ----------------------------
+ * Zod Schema Definitions
+ * ----------------------------- */
 
-// Password validation rule
+// Strong password rules
 const passwordSchema = z
   .string()
-  .min(6, "Password must be at least 6 characters");
+  .min(8, "Password must be at least 8 characters")
+  .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+  .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+  .regex(/[0-9]/, "Password must contain at least one number")
+  .regex(
+    /[^A-Za-z0-9]/,
+    "Password must contain at least one special character"
+  );
 
 // Create user schema
-export const createUserSchema = z
+const createUserSchema = z
   .object({
     fullname: z.string().min(1, "Full name is required"),
     username: z.string().min(1, "Username is required"),
-    email: z.string().email("Please enter a valid email."),
+    email: z.email("Please enter a valid email."),
     photo: z.union([z.string(), z.null()]).default(null),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    password: passwordSchema,
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -34,19 +34,34 @@ export const createUserSchema = z
     message: "Passwords do not match",
   });
 
-// Update user schema (partial fields)
-export const updateUserSchema = createUserSchema
+// Update user schema (partial allowed)
+const updateUserSchema = createUserSchema
   .partial()
   .refine((data) => !data.password || data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "Passwords do not match",
   });
 
+/** ----------------------------
+ * Utility: Zod Error Formatter
+ * ----------------------------- */
+function getZodFieldErrors(error: z.ZodError): Record<string, string> {
+  const fieldErrors: Record<string, string> = {};
+  error.issues.forEach((e) => {
+    const path = e.path.join(".");
+    fieldErrors[path] = e.message;
+  });
+  return fieldErrors;
+}
+
+/** ----------------------------
+ * Route Handlers
+ * ----------------------------- */
+
 // GET all users
 export async function getAllUsers(): Promise<NextResponse> {
   try {
     const users = await getUsers();
-    
     return NextResponse.json(users, { status: 200 });
   } catch (err) {
     return NextResponse.json(
@@ -56,7 +71,7 @@ export async function getAllUsers(): Promise<NextResponse> {
   }
 }
 
-//  CREATE user
+// POST /api/users → Create user
 export async function createUser(req: NextRequest) {
   try {
     const body = await req.json();
@@ -79,8 +94,7 @@ export async function createUser(req: NextRequest) {
       { status: 201 }
     );
   } catch (err) {
-    console.error(err);
-    console.error("Create user error:");
+    console.error("Create user error:", err);
     return NextResponse.json(
       { error: "Failed to create user (server error)" },
       { status: 500 }
@@ -88,7 +102,7 @@ export async function createUser(req: NextRequest) {
   }
 }
 
-// UPDATE user
+// PUT /api/users → Update user
 export async function updateUser(req: NextRequest) {
   try {
     const body = await req.json();
@@ -111,7 +125,6 @@ export async function updateUser(req: NextRequest) {
 
     const { confirmPassword: _, password, ...otherFields } = parsed.data;
 
-    // Build updateData with optional password (hashed)
     const updateData = {
       ...otherFields,
       ...(password ? { password: await hash(password, 10) } : {}),
@@ -129,7 +142,7 @@ export async function updateUser(req: NextRequest) {
   }
 }
 
-// DELETE user
+// DELETE /api/users?id=123
 export async function deleteUser(id: string) {
   try {
     if (!id) {

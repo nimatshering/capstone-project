@@ -18,31 +18,35 @@ import { useUser } from "@/context/UserContext";
 export const NavBar = () => {
   const { user, refreshUser } = useUser();
 
-  const navigationItems = [
-    {
-      title: "Home",
-      href: "/",
-      description: "",
-    },
-    ...(user
-      ? [
-          {
-            title: "Products",
-            description: "Our Products.",
-            items: [
-              {
-                title: "Task Manager",
-                href: "/projects",
-              },
-              {
-                title: "Users",
-                href: "/users",
-              },
-            ],
-          },
-        ]
-      : []),
-  ];
+  const navigationItems = user
+    ? [
+        {
+          title: "Dashboard",
+          href: "/dashboard",
+          description: "",
+        },
+        {
+          title: "Products",
+          description: "Our Products.",
+          items: [
+            {
+              title: "Task Manager",
+              href: "/projects",
+            },
+            {
+              title: "Users",
+              href: "/users",
+            },
+          ],
+        },
+      ]
+    : [
+        {
+          title: "Home",
+          href: "/",
+          description: "",
+        },
+      ];
 
   const [isOpen, setOpen] = useState(false);
   const router = useRouter();

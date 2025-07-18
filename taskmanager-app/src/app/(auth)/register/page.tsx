@@ -72,7 +72,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="w-full container mx-auto lg:w-2/5 md:w-1/2">
+    <div className="md:mt-10 w-full container mx-auto lg:w-2/5 md:w-1/2">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-10 rounded-lg shadow-lg min-w-full"
