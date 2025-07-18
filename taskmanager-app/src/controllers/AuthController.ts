@@ -1,4 +1,3 @@
-// app/controllers/AuthController.ts
 import { NextRequest, NextResponse } from "next/server";
 import { createSession, deleteSession, getSession } from "@/lib/session";
 import { findUserByUsername } from "@/models/AuthModel";
@@ -30,10 +29,10 @@ export async function login(req: NextRequest) {
     }
 
     // Create response and set session cookie
-    const response = NextResponse.json({ success: true, userId: user.id });
-    await createSession(user.id, response);
-
-    return response;
+    return await createSession(
+      user.id,
+      NextResponse.json({ success: true, userId: user.id })
+    );
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(

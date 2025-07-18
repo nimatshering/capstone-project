@@ -1,4 +1,3 @@
-import { Tasks } from "@/components/tasks/Tasks";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,29 +5,27 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Users } from "@/components/users/Users";
 import { SlashIcon } from "lucide-react";
-export default function TaskPage() {
+
+export default function UsersPage() {
   return (
     <div className="container mx-auto">
-      <div className="p-6 md:px-20 w-full">
+      <div className="px-20 w-full">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/projects">
-                <span className="font-bold text-xl">Projects</span>
-              </BreadcrumbLink>
+              <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>
               <SlashIcon />
             </BreadcrumbSeparator>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/tasks">
-                <span className="font-bold text-xl">Tasks</span>
-              </BreadcrumbLink>
+              <BreadcrumbLink href="/dashboard/users">Users</BreadcrumbLink>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Tasks />
+        <Users />
       </div>
     </div>
   );

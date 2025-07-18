@@ -113,7 +113,7 @@ export function EditProjectForm({
         <form onSubmit={handleSubmit} className="space-y-4">
           {(["name", "description"] as const).map((field) => (
             <div key={field}>
-              <Label htmlFor={field}>
+              <Label htmlFor={field} className="py-2">
                 {field === "name"
                   ? "name"
                   : field.charAt(0).toUpperCase() + field.slice(1)}

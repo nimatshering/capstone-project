@@ -6,15 +6,15 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { SlashIcon } from "lucide-react";
+
 export default function ProjectPage() {
   return (
     <div className="container mx-auto">
-      <div className="p-6 md:px-20 w-full">
+      <div className="p-2 md:px-20 w-full">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/projects">
+              <BreadcrumbLink href="/dashboard/projects">
                 <span className="font-bold text-xl">Projects</span>
               </BreadcrumbLink>
             </BreadcrumbItem>
