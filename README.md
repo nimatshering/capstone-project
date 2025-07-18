@@ -11,10 +11,10 @@ A clean, full-stack **Task Management** application built with **Next.js**, **Ty
 ## Features
 
 - Add, edit, delete Project and tasks
-- Organize tasks by status (To Do, In Progress, Done)
-- Set priorities and due dates
-- Filter/search tasks
-- Dark mode support
+- Organize tasks by status (At_risk, In-Progress, Done)
+- Set task due dates
+- User Management
+- User Authentication & Route protection (Using JOSE Library)
 
 ---
 
