@@ -41,23 +41,23 @@ export const Footer = () => {
   return (
     <div className="w-full py-20 lg:py-40 text-gray-700 bg-stone-200">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Left Column: Title and Description */}
-          <div className="space-y-6">
-            <h2 className="text-3xl md:text-5xl font-normal tracking-tight leading-tight text-left max-w-xl">
+          <div className="space-y-6 max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
+            <h2 className="text-3xl md:text-5xl font-normal tracking-tight leading-tight">
               Task Manager
             </h2>
-            <p className="text-lg leading-relaxed text-left text-gray-600 max-w-lg">
+            <p className="text-lg leading-relaxed text-gray-600">
               Simplify your business...
             </p>
           </div>
 
           {/* Right Column: Navigation Links */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 max-w-lg mx-auto lg:mx-0">
             {navigationItems.map((item) => (
               <div
                 key={item.title}
-                className="space-y-2 text-base font-medium text-left"
+                className="space-y-2 text-base font-medium text-center sm:text-left"
               >
                 {item.items?.map((subItem) => (
                   <Link

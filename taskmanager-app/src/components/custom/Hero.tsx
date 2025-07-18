@@ -26,7 +26,7 @@ export const Hero = () => {
   }, [titleNumber, titles]);
 
   return (
-    <div className="w-full  py-10 lg:py-20">
+    <div className="w-full">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 gap-8 items-center lg:grid-cols-2">
           <div className="flex gap-4 flex-col">

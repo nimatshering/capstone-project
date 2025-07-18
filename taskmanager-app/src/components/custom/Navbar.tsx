@@ -18,31 +18,35 @@ import { useUser } from "@/context/UserContext";
 export const NavBar = () => {
   const { user, refreshUser } = useUser();
 
-  const navigationItems = [
-    {
-      title: "Home",
-      href: "/",
-      description: "",
-    },
-    ...(user
-      ? [
-          {
-            title: "Products",
-            description: "Our Products.",
-            items: [
-              {
-                title: "Task Manager",
-                href: "/projects",
-              },
-              {
-                title: "Users",
-                href: "/users",
-              },
-            ],
-          },
-        ]
-      : []),
-  ];
+  const navigationItems = user
+    ? [
+        {
+          title: "Dashboard",
+          href: "/dashboard",
+          description: "",
+        },
+        {
+          title: "Project Tracker",
+          description: "Track your project.",
+          items: [
+            {
+              title: "Task Manager",
+              href: "/dashboard/projects",
+            },
+            {
+              title: "Users",
+              href: "/dashboard/users",
+            },
+          ],
+        },
+      ]
+    : [
+        {
+          title: "Home",
+          href: "/",
+          description: "",
+        },
+      ];
 
   const [isOpen, setOpen] = useState(false);
   const router = useRouter();
@@ -57,7 +61,7 @@ export const NavBar = () => {
     <header className="w-full z-40 fixed top-0 left-0 bg-white border-b">
       <div className="container relative mx-auto min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-2 items-center">
         <div className="justify-start items-center gap-4 lg:flex hidden flex-row">
-          <NavigationMenu className="flex justify-start items-start">
+          <NavigationMenu className="flex justify-start items-start p-4">
             <NavigationMenuList className="flex justify-start gap-4 flex-row">
               {navigationItems.map((item) => (
                 <NavigationMenuItem key={item.title}>
@@ -105,7 +109,6 @@ export const NavBar = () => {
         </div>
         <div className="flex justify-end w-full gap-4 items-center">
           <div className="border-r hidden md:inline"></div>
-
           {!user ? (
             <>
               <Link href="/login">
@@ -126,7 +129,7 @@ export const NavBar = () => {
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
           {isOpen && (
-            <div className="absolute top-20 border-t flex flex-col w-full right-0 bg-background shadow-lg py-4 container gap-8">
+            <div className="absolute top-20 border-t flex flex-col w-full right-0 bg-background shadow-lg p-4 container gap-8">
               {navigationItems.map((item) => (
                 <div key={item.title}>
                   <div className="flex flex-col gap-2">

@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         <UserProvider>
           <NavBar />
-          <div className="container mx-auto px-4 pt-20 mt-10 h-screen">
+          <div className="container mx-auto px-4 py-20 my-10 min-h-screen">
             {children}
           </div>
         </UserProvider>
